@@ -1,0 +1,23 @@
+{
+  "name": "anywhere",
+  "version": "0.0.1",
+  "description": "Run static file server anywhere",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "anywhere": "./bin/anywhere"
+  },
+  "keywords": [
+    "Static",
+    "file",
+    "server",
+    "Assets"
+  ],
+  "author": "Jackson Tian",
+  "license": "MIT",
+  "dependencies": {
+    "connect": ">=2.5.0"
+  }
+}
