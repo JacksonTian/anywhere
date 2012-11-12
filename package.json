@@ -1,6 +1,6 @@
 {
   "name": "anywhere",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Run static file server anywhere",
   "main": "index.js",
   "scripts": {
