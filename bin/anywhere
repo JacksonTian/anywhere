@@ -4,8 +4,13 @@ var cwd = process.cwd();
 var exec = require('child_process').exec;
 
 var openURL = function (url) {
-  if (process.platform === "darwin") {
-    exec('open ' + url);
+  switch (process.platform) {
+    case "darwin":
+      exec('open ' + url);
+      break;
+    case "win32":
+      exec('start ' + url);
+      break;
   }
 };
 
