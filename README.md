@@ -18,4 +18,5 @@ anywhere 8000
 ```
 http://localhost:8080
 ```
-Max OS X用户额外福利是，执行命令后，浏览器将为您自动打开主页。
+Max OS X和Windows用户额外福利是，执行命令后，默认浏览器将为您自动打开主页。
+
