@@ -15,6 +15,10 @@ var openURL = function (url) {
 };
 
 var app = connect();
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
 app.use(connect.static(cwd));
 app.use(connect.directory(cwd));
 var port = process.argv[2] || 8080;
