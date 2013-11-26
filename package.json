@@ -19,5 +19,13 @@
   "license": "MIT",
   "dependencies": {
     "connect": ">=2.5.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/JacksonTian/anywhere.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JacksonTian/anywhere/issues"
+  },
+  "homepage": "https://github.com/JacksonTian/anywhere"
 }
