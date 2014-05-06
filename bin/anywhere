@@ -23,6 +23,29 @@ var openURL = function (url) {
   }
 };
 
+/**
+ * @name getMyIp
+ * @desc get my outside ipv4
+ * @param {null}
+ * @return { ipv4 or 'localhost' } the ipv4 address or 'localhost'
+ **/
+var getMyIp = function() {
+  var os = require('os');
+  var ifaces = os.networkInterfaces();
+  var ip = '';
+  for (var dev in ifaces) {
+    ifaces[dev].forEach(function (details) {
+      if (ip === '' && details.family === 'IPv4' && details.internal === false) {
+        ip = details.address;
+        return;
+      }
+    });
+  }
+  return ip || "127.0.0.1";
+}
+
+
+
 var app = connect();
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -32,7 +55,7 @@ app.use(connect.static(cwd));
 app.use(connect.directory(cwd));
 var port = process.argv[2] || 8080;
 app.listen(port, function () {
-  var url = "http://localhost:" + port;
+  var url = "http://" + getMyIp() + ":" + port;
   console.log("Running at " + url);
   openURL(url);
 });
