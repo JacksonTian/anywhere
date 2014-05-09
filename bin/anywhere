@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+var os = require('os');
 var connect = require('connect');
 var cwd = process.cwd();
 var exec = require('child_process').exec;
@@ -24,27 +25,22 @@ var openURL = function (url) {
 };
 
 /**
- * @name getMyIp
- * @desc get my outside ipv4
- * @param {null}
- * @return { ipv4 or 'localhost' } the ipv4 address or 'localhost'
- **/
-var getMyIp = function() {
-  var os = require('os');
+ * Get ip(v4) address
+ * @return {String} the ipv4 address or 'localhost'
+ */
+var getIPAddress = function () {
   var ifaces = os.networkInterfaces();
   var ip = '';
   for (var dev in ifaces) {
     ifaces[dev].forEach(function (details) {
-      if (ip === '' && details.family === 'IPv4' && details.internal === false) {
+      if (ip === '' && details.family === 'IPv4' && !details.internal) {
         ip = details.address;
         return;
       }
     });
   }
   return ip || "127.0.0.1";
-}
-
-
+};
 
 var app = connect();
 app.use(function (req, res, next) {
@@ -55,7 +51,7 @@ app.use(connect.static(cwd));
 app.use(connect.directory(cwd));
 var port = process.argv[2] || 8080;
 app.listen(port, function () {
-  var url = "http://" + getMyIp() + ":" + port;
+  var url = "http://" + getIPAddress() + ":" + port;
   console.log("Running at " + url);
   openURL(url);
 });
