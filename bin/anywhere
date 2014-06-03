@@ -4,6 +4,17 @@ var connect = require('connect');
 var cwd = process.cwd();
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
+var argv = require("minimist")(process.argv.slice(2), {
+  alias: {
+    'silent': 's',
+    'port': 'p'
+  },
+  string: 'port',
+  boolean: 'silent',
+  default: {
+    'port': 8000
+  }
+});
 
 var openURL = function (url) {
   switch (process.platform) {
@@ -49,9 +60,11 @@ app.use(function (req, res, next) {
 });
 app.use(connect.static(cwd));
 app.use(connect.directory(cwd));
-var port = process.argv[2] || 8080;
+var port = argv.port || 8000
 app.listen(port, function () {
   var url = "http://" + getIPAddress() + ":" + port;
   console.log("Running at " + url);
-  openURL(url);
+  if (!argv.silent) {
+    openURL(url);
+  }
 });

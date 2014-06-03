@@ -18,7 +18,8 @@
   "author": "Jackson Tian",
   "license": "MIT",
   "dependencies": {
-    "connect": ">=2.5.0"
+    "connect": ">=2.5.0",
+    "minimist": "~0.1.0"
   },
   "repository": {
     "type": "git",
