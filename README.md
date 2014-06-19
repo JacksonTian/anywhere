@@ -12,10 +12,12 @@ npm install anywhere -g
 ```
 anywhere
 // or with port
-anywhere 8000
+anywhere -p 8000
+// or start it but silent(don't open browser)
+anywhere -s
 ```
 ## Visit
 ```
-http://localhost:8080
+http://localhost:8000
 ```
 执行命令后，默认浏览器将为您自动打开主页。

@@ -60,8 +60,7 @@ app.use(function (req, res, next) {
 });
 app.use(connect.static(cwd));
 app.use(connect.directory(cwd));
-var port = argv.port || 8000
-app.listen(port, function () {
+app.listen(argv.port, function () {
   var url = "http://" + getIPAddress() + ":" + port;
   console.log("Running at " + url);
   if (!argv.silent) {
