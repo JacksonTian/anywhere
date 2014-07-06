@@ -61,7 +61,7 @@ app.use(function (req, res, next) {
 app.use(connect.static(cwd));
 app.use(connect.directory(cwd));
 app.listen(argv.port, function () {
-  var url = "http://" + getIPAddress() + ":" + port;
+  var url = "http://" + getIPAddress() + ":" + argv.port;
   console.log("Running at " + url);
   if (!argv.silent) {
     openURL(url);
