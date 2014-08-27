@@ -1,6 +1,6 @@
 {
   "name": "anywhere",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Run static file server anywhere",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,9 @@
   "author": "Jackson Tian",
   "license": "MIT",
   "dependencies": {
-    "connect": "=2.5.0",
+    "connect": "3.1.1",
+    "serve-index": "1.2.0",
+    "serve-static": "1.5.3",
     "minimist": "~0.1.0"
   },
   "repository": {

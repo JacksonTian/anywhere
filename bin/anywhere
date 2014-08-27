@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 var os = require('os');
 var connect = require('connect');
+var serveStatic = require('serve-static');
+var serveIndex = require('serve-index');
+
 var cwd = process.cwd();
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
@@ -58,10 +61,14 @@ app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   next();
 });
-app.use(connect.static(cwd));
-app.use(connect.directory(cwd));
-app.listen(argv.port, function () {
-  var url = "http://" + getIPAddress() + ":" + argv.port;
+app.use(serveStatic(cwd, {'index': ['index.html']}));
+app.use(serveIndex(cwd, {'icons': true}));
+// anywhere 8888
+// anywhere -p 8989
+// anywhere 8888 -s // silent
+var port = argv._[0] || argv.port;
+app.listen(port, function () {
+  var url = "http://" + getIPAddress() + ":" + port;
   console.log("Running at " + url);
   if (!argv.silent) {
     openURL(url);
