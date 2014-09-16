@@ -15,9 +15,16 @@ anywhere
 anywhere -p 8000
 // or start it but silent(don't open browser)
 anywhere -s
+// or with hostname
+anywhere -h localhost -p 8888
 ```
+
 ## Visit
+
 ```
 http://localhost:8000
 ```
 执行命令后，默认浏览器将为您自动打开主页。
+
+## License
+The MIT license.

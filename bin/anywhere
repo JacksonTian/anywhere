@@ -10,7 +10,8 @@ var spawn = require('child_process').spawn;
 var argv = require("minimist")(process.argv.slice(2), {
   alias: {
     'silent': 's',
-    'port': 'p'
+    'port': 'p',
+    'hostname': 'h'
   },
   string: 'port',
   boolean: 'silent',
@@ -66,9 +67,14 @@ app.use(serveIndex(cwd, {'icons': true}));
 // anywhere 8888
 // anywhere -p 8989
 // anywhere 8888 -s // silent
+// anywhere -h localhost
 var port = argv._[0] || argv.port;
+var hostname = argv.hostname || getIPAddress();
+
 app.listen(port, function () {
-  var url = "http://" + getIPAddress() + ":" + port;
+  // 忽略80端口
+  port = (port != '80' ? ':' + port : '');
+  var url = "http://" + hostname + port + '/';
   console.log("Running at " + url);
   if (!argv.silent) {
     openURL(url);
