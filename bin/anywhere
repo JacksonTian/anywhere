@@ -4,19 +4,20 @@ var connect = require('connect');
 var serveStatic = require('serve-static');
 var serveIndex = require('serve-index');
 
-var cwd = process.cwd();
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var argv = require("minimist")(process.argv.slice(2), {
   alias: {
     'silent': 's',
     'port': 'p',
-    'hostname': 'h'
+    'hostname': 'h',
+    'dir': 'd'
   },
   string: 'port',
   boolean: 'silent',
   default: {
-    'port': 8000
+    'port': 8000,
+    'dir': process.cwd()
   }
 });
 
@@ -62,12 +63,13 @@ app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   next();
 });
-app.use(serveStatic(cwd, {'index': ['index.html']}));
-app.use(serveIndex(cwd, {'icons': true}));
+app.use(serveStatic(argv.dir, {'index': ['index.html']}));
+app.use(serveIndex(argv.dir, {'icons': true}));
 // anywhere 8888
 // anywhere -p 8989
 // anywhere 8888 -s // silent
 // anywhere -h localhost
+// anywhere -d /home
 var port = argv._[0] || argv.port;
 var hostname = argv.hostname || getIPAddress();
 
