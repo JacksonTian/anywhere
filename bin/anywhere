@@ -15,7 +15,7 @@ var argv = require("minimist")(process.argv.slice(2), {
   },
   string: 'port',
   boolean: 'silent',
-  default: {
+  'default': {
     'port': 8000,
     'dir': process.cwd()
   }
