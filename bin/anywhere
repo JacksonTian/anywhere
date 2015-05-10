@@ -13,13 +13,25 @@ var argv = require("minimist")(process.argv.slice(2), {
     'hostname': 'h',
     'dir': 'd'
   },
-  string: 'port',
+  string: ['port', 'hostname'],
   boolean: 'silent',
   'default': {
     'port': 8000,
     'dir': process.cwd()
   }
 });
+
+if (argv.help) {
+  console.log("Usage:");
+  console.log("  anywhere --help // print help information");
+  console.log("  anywhere // 8000 as default port, current folder as root");
+  console.log("  anywhere 8888 // 8888 as port");
+  console.log("  anywhere -p 8989 // 8989 as port");
+  console.log("  anywhere -s // don't open browser");
+  console.log("  anywhere -h localhost // localhost as hostname");
+  console.log("  anywhere -d /home // /home as root");
+  process.exit(0);
+}
 
 var openURL = function (url) {
   switch (process.platform) {

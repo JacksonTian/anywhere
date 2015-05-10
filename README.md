@@ -10,15 +10,28 @@ npm install anywhere -g
 
 ## Execution
 ```
-anywhere
+$ anywhere
 // or with port
-anywhere -p 8000
+$ anywhere -p 8000
 // or start it but silent(don't open browser)
-anywhere -s
+$ anywhere -s
 // or with hostname
-anywhere -h localhost -p 8888
+$ anywhere -h localhost -p 8888
 // or with folder
-anywhere -d ~/git/anywhere
+$ anywhere -d ~/git/anywhere
+```
+
+## Help
+```
+$ anywhere --help
+Usage:
+  anywhere --help // print help information
+  anywhere // 8000 as default port, current folder as root
+  anywhere 8888 // 8888 as port
+  anywhere -p 8989 // 8989 as port
+  anywhere -s // don't open browser
+  anywhere -h localhost // localhost as hostname
+  anywhere -d /home // /home as root
 ```
 
 ## Visit
