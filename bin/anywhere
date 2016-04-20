@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-var appName = 'anywhere';
+
 var os = require('os');
 var connect = require('connect');
 var serveStatic = require('serve-static');
 var serveIndex = require('serve-index');
 
-process.env.DEBUG = appName;
-var debug = require('debug')(appName);
+var debug = require('debug');
+debug.enable('anywhere');
 
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
@@ -76,11 +76,13 @@ var getIPAddress = function () {
   return ip || "127.0.0.1";
 };
 
+var log = debug('anywhere');
+
 var app = connect();
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   if(argv.log){
-    debug(req.method + ' ' + req.url);
+    log(req.method + ' ' + req.url);
   }
   next();
 });
