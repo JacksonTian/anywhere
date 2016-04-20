@@ -77,7 +77,7 @@ app.use(function (req, res, next) {
   var now = new Date;
   res.setHeader("Access-Control-Allow-Origin", "*");
   if(argv.log){
-    console.log(now.getHours() + ':' + now.getSeconds() , req.method, req.url);
+    console.log(now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds() , req.method, req.url);
   }
   next();
 });
