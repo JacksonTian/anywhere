@@ -74,9 +74,9 @@ var getIPAddress = function () {
 
 var app = connect();
 app.use(function (req, res, next) {
-  var now = new Date;
   res.setHeader("Access-Control-Allow-Origin", "*");
-  if(argv.log){
+  if(argv.log) {
+    var now = new Date;
     console.log(now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds() , req.method, req.url);
   }
   next();
