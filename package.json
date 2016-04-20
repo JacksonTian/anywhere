@@ -1,6 +1,6 @@
 {
   "name": "anywhere",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Run static file server anywhere",
   "main": "index.js",
   "scripts": {
@@ -19,9 +19,10 @@
   "license": "MIT",
   "dependencies": {
     "connect": "3.1.1",
+    "debug": "^2.2.0",
+    "minimist": "~0.1.0",
     "serve-index": "1.2.0",
-    "serve-static": "1.5.3",
-    "minimist": "~0.1.0"
+    "serve-static": "1.5.3"
   },
   "repository": {
     "type": "git",
