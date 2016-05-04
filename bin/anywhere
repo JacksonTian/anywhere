@@ -3,6 +3,7 @@ var os = require('os');
 var connect = require('connect');
 var serveStatic = require('serve-static');
 var serveIndex = require('serve-index');
+var chalk = require('chalk');
 
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
@@ -92,5 +93,11 @@ app.listen(port, function () {
   console.log("Running at " + url);
   if (!argv.silent) {
     openURL(url);
+  }
+}).on('error',function (err) {
+  if(err.code==="EADDRINUSE"){
+    console.log(chalk.red.bold("[ERROR]")+" Port:"+chalk.blue("%s")+" already in use,try latter.",err.port)
+  }else{
+    console.log(chalk.red.bold("[ERROR]")+err.message)
   }
 });
