@@ -1,8 +1,12 @@
 #!/usr/bin/env node
+
 var os = require('os');
 var connect = require('connect');
 var serveStatic = require('serve-static');
 var serveIndex = require('serve-index');
+
+var debug = require('debug');
+debug.enable('anywhere');
 
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
@@ -11,10 +15,11 @@ var argv = require("minimist")(process.argv.slice(2), {
     'silent': 's',
     'port': 'p',
     'hostname': 'h',
-    'dir': 'd'
+    'dir': 'd',
+    'log': 'l'
   },
   string: ['port', 'hostname'],
-  boolean: 'silent',
+  boolean: ['silent', 'log'],
   'default': {
     'port': 8000,
     'dir': process.cwd()
@@ -30,6 +35,7 @@ if (argv.help) {
   console.log("  anywhere -s // don't open browser");
   console.log("  anywhere -h localhost // localhost as hostname");
   console.log("  anywhere -d /home // /home as root");
+  console.log("  anywhere -l // print log");
   process.exit(0);
 }
 
@@ -70,9 +76,14 @@ var getIPAddress = function () {
   return ip || "127.0.0.1";
 };
 
+var log = debug('anywhere');
+
 var app = connect();
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
+  if(argv.log){
+    log(req.method + ' ' + req.url);
+  }
   next();
 });
 app.use(serveStatic(argv.dir, {'index': ['index.html']}));
