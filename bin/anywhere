@@ -96,7 +96,7 @@ app.listen(port, function () {
   }
 }).on('error',function (err) {
   if (err.code === "EADDRINUSE") {
-    console.log(chalk.red.bold("[ERROR]")+" Port:"+chalk.blue("%s")+" already in use,try latter.",err.port)
+    console.log(chalk.red.bold("[ERROR]")+" Port:"+chalk.blue("%s")+" already in use,try latter.", err.port)
   }else{
     console.log(chalk.red.bold("[ERROR]")+err.message)
   }
