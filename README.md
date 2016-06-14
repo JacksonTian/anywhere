@@ -19,6 +19,8 @@ $ anywhere -s
 $ anywhere -h localhost -p 8888
 // or with folder
 $ anywhere -d ~/git/anywhere
+// or enable html5 history
+$anywhere -f /index.html
 ```
 
 ## Help
@@ -32,6 +34,7 @@ Usage:
   anywhere -s // don't open browser
   anywhere -h localhost // localhost as hostname
   anywhere -d /home // /home as root
+  anywhere -f /index.html  // Enable html5 history,the index is /index.html
 ```
 
 ## Visit
