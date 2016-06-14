@@ -9,6 +9,7 @@ var https = require('https');
 var connect = require('connect');
 var serveStatic = require('serve-static');
 var serveIndex = require('serve-index');
+var fallback = require('connect-history-api-fallback');
 
 var debug = require('debug');
 debug.enable('anywhere');
@@ -21,13 +22,15 @@ var argv = require("minimist")(process.argv.slice(2), {
     'port': 'p',
     'hostname': 'h',
     'dir': 'd',
-    'log': 'l'
+    'log': 'l',
+    'fallback': 'f'
   },
-  string: ['port', 'hostname'],
+  string: ['port', 'hostname', 'fallback'],
   boolean: ['silent', 'log'],
   'default': {
     'port': 8000,
-    'dir': process.cwd()
+    'dir': process.cwd(),
+    'fallback': 'index.html'
   }
 });
 
@@ -41,6 +44,7 @@ if (argv.help) {
   console.log("  anywhere -h localhost // localhost as hostname");
   console.log("  anywhere -d /home // /home as root");
   console.log("  anywhere -l // print log");
+  console.log("  anywhere -f // Enable history fallback");
   process.exit(0);
 }
 
@@ -86,13 +90,20 @@ var log = debug('anywhere');
 var app = connect();
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  if(argv.log){
+  if (argv.log) {
     log(req.method + ' ' + req.url);
   }
   next();
 });
-app.use(serveStatic(argv.dir, {'index': ['index.html']}));
-app.use(serveIndex(argv.dir, {'icons': true}));
+if (argv.fallback) {
+  console.log('Enable html5 history mode.');
+  app.use(fallback({
+    index: argv.fallback
+  }));
+}
+app.use(serveStatic(argv.dir, { 'index': ['index.html'] }));
+app.use(serveIndex(argv.dir, { 'icons': true }));
+
 // anywhere 8888
 // anywhere -p 8989
 // anywhere 8888 -s // silent
