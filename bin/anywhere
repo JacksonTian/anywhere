@@ -29,8 +29,7 @@ var argv = require("minimist")(process.argv.slice(2), {
   boolean: ['silent', 'log'],
   'default': {
     'port': 8000,
-    'dir': process.cwd(),
-    'fallback': 'index.html'
+    'dir': process.cwd()
   }
 });
 
@@ -95,10 +94,10 @@ app.use(function (req, res, next) {
   }
   next();
 });
-if (argv.fallback) {
+if (argv.fallback !== undefined) {
   console.log('Enable html5 history mode.');
   app.use(fallback({
-    index: argv.fallback
+    index: argv.fallback || '/index.html'
   }));
 }
 app.use(serveStatic(argv.dir, { 'index': ['index.html'] }));
