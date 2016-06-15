@@ -1,9 +1,7 @@
 {
   "name": "anywhere",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Run static file server anywhere",
-  "main": "index.js",
-  "scripts": {},
   "bin": {
     "anywhere": "./bin/anywhere"
   },
