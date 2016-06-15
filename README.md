@@ -20,7 +20,7 @@ $ anywhere -h localhost -p 8888
 // or with folder
 $ anywhere -d ~/git/anywhere
 // or enable html5 history
-$anywhere -f /index.html
+$ anywhere -f /index.html
 ```
 
 ## Help
