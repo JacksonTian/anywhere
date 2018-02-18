@@ -28,5 +28,6 @@
   "bugs": {
     "url": "https://github.com/JacksonTian/anywhere/issues"
   },
-  "homepage": "https://github.com/JacksonTian/anywhere"
+  "homepage": "https://github.com/JacksonTian/anywhere",
+  "files": ["bin", "keys"]
 }
