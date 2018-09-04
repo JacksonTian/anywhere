@@ -25,6 +25,10 @@ $ anywhere -h localhost -p 8888
 $ anywhere -d ~/git/anywhere
 // or enable html5 history
 $ anywhere -f /index.html
+// or with QRcode and silent
+$ anywhere -q
+// or with https QRcode and silent
+$ anywhere -e
 ```
 
 ## Help
@@ -40,6 +44,8 @@ Usage:
   anywhere -h localhost // localhost as hostname
   anywhere -d /home // /home as root
   anywhere -f /index.html  // Enable html5 history,the index is /index.html
+  anywhere -q // show QRcode
+  anywhere -e // show QRcode with https
 ```
 
 ## Visit
