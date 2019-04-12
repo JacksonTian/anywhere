@@ -40,14 +40,34 @@ Usage:
   anywhere -h localhost // localhost as hostname
   anywhere -d /home // /home as root
   anywhere -f /index.html  // Enable html5 history,the index is /index.html
+  anywhere --proxy webpack.config.js // use webpack.config.js or customize config file
 ```
+
+###### Proxy customize config file
+
+```javascript
+// proxy.config.js
+module.exports = {
+  '/api': {
+    target: 'http://api.domain.com',
+    changeOrigin: true
+  },
+  '/cdn': {
+    target: 'http://cdn.domain.com',
+    changeOrigin: true
+  }
+  // ...
+}
+```
+
+> More proxy help, look over [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware#context-matching)
 
 ## Visit
 
 ```
 http://localhost:8000
 ```
-执行命令后，默认浏览器将为您自动打开主页。
+Automatically open default browser. 执行命令后，默认浏览器将为您自动打开主页。
 
 ## License
 The MIT license.
