@@ -5,11 +5,14 @@ var fs = require('fs');
 var path = require('path');
 var http = require('http');
 var https = require('https');
+const { URL } = require('url');
 
 var connect = require('connect');
 var serveStatic = require('serve-static');
 var serveIndex = require('serve-index');
 var fallback = require('connect-history-api-fallback');
+var proxy = require('http-proxy-middleware');
+
 
 var debug = require('debug');
 debug.enable('anywhere');
@@ -22,6 +25,7 @@ var argv = require("minimist")(process.argv.slice(2), {
     'port': 'p',
     'hostname': 'h',
     'dir': 'd',
+    'proxy': 'x',
     'log': 'l',
     'fallback': 'f'
   },
@@ -44,6 +48,7 @@ if (argv.help) {
   console.log("  anywhere -d /home // /home as root");
   console.log("  anywhere -l // print log");
   console.log("  anywhere -f // Enable history fallback");
+  console.log("  anywhere --proxy http://localhost:7000/api // Support shorthand URL, webpack.config.js or customize config file");
   process.exit(0);
 }
 
@@ -102,6 +107,33 @@ if (argv.fallback !== undefined) {
 }
 app.use(serveStatic(argv.dir, { 'index': ['index.html'] }));
 app.use(serveIndex(argv.dir, { 'icons': true }));
+
+// anywhere --proxy webpack.config.js
+// anywhere --proxy proxy.config.js
+// anywhere --proxy http://localhost:7000/api
+if (argv.proxy) {
+  try {
+    // if url
+    var url = new URL(argv.proxy);
+    app.use(proxy(url.toString(), { changeOrigin: true }));
+  } catch (e) {
+    // if config file
+    var config = require(path.resolve(argv.dir, argv.proxy));
+    // support webpack-dev-server proxy options
+    try {
+      config = config.devServer.proxy;
+    } catch (e) {
+      if (argv.log) {
+        log(e);
+      }
+    }
+    var contexts = Object.keys(config);
+    contexts.forEach(context => {
+      var options = config[context];
+      app.use(proxy(context, options));
+    });
+  }
+}
 
 // anywhere 8888
 // anywhere -p 8989
