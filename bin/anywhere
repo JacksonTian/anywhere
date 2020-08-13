@@ -12,7 +12,7 @@ var serveStatic = require('serve-static');
 var serveIndex = require('serve-index');
 var fallback = require('connect-history-api-fallback');
 var proxy = require('http-proxy-middleware');
-
+var compression = require('compression');
 
 var debug = require('debug');
 debug.enable('anywhere');
@@ -99,6 +99,7 @@ app.use(function (req, res, next) {
   }
   next();
 });
+app.use(compression());
 if (argv.fallback !== undefined) {
   console.log('Enable html5 history mode.');
   app.use(fallback({
