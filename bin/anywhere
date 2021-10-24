@@ -77,16 +77,22 @@ var openURL = function (url) {
  */
 var getIPAddress = function () {
   var ifaces = os.networkInterfaces();
-  var ip = '';
+  var ipList = [];
   for (var dev in ifaces) {
     ifaces[dev].forEach(function (details) {
-      if (ip === '' && details.family === 'IPv4' && !details.internal) {
-        ip = details.address;
-        return;
+      if (details.family === 'IPv4' && !details.internal) {
+        ipList.push(details.address);
       }
     });
   }
-  return ip || "127.0.0.1";
+  // Local IP first
+  ipList.sort(function (ip1, ip2) {
+    if(ip1.indexOf('192') >= 0){
+      return -1;
+    }
+    return 1;
+  });
+  return ipList[0] || "127.0.0.1";
 };
 
 var log = debug('anywhere');
