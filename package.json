@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "connect": "^3.6.6",
-    "connect-history-api-fallback": "^1.2.0",
+    "connect-history-api-fallback": "^2.0.0",
     "debug": "^2.2.0",
     "http-proxy-middleware": "^0.19.1",
     "minimist": "^1.2.0",
