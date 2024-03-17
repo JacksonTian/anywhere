@@ -54,9 +54,9 @@ anywhere --proxy http://localhost:7000/api
 ```
 More about the [shorthand configuration](https://github.com/chimurai/http-proxy-middleware#shorthand).
 
-**Webpack conofig**
+**Webpack config**
 ```javascript
-// webpack.conofig.js
+// webpack.config.js
 module.exports = {
   devServer: {
     proxy: {
