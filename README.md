@@ -1,6 +1,9 @@
 Anywhere 随启随用的静态文件服务器
 ==============================
 
+![NPM Version](https://img.shields.io/npm/v/anywhere)
+![NPM Downloads](https://img.shields.io/npm/dm/anywhere)
+
 Running static file server anywhere. 随时随地将你的当前目录变成一个静态文件服务器的根目录。
 
 ## Installation
