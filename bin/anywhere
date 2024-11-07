@@ -111,8 +111,6 @@ if (argv.fallback !== undefined) {
     index: argv.fallback || '/index.html'
   }));
 }
-app.use(serveStatic(argv.dir, { 'index': ['index.html'] }));
-app.use(serveIndex(argv.dir, { 'icons': true }));
 
 // anywhere --proxy webpack.config.js
 // anywhere --proxy proxy.config.js
@@ -140,6 +138,10 @@ if (argv.proxy) {
     });
   }
 }
+
+app.use(serveStatic(argv.dir, { 'index': ['index.html'] }));
+app.use(serveIndex(argv.dir, { 'icons': true }));
+
 
 // anywhere 8888
 // anywhere -p 8989
