@@ -17,7 +17,7 @@
     "connect": "^3.6.6",
     "connect-history-api-fallback": "^1.2.0",
     "debug": "^4.3.4",
-    "http-proxy-middleware": "^0.19.1",
+    "http-proxy-middleware": "^2.0.7",
     "minimist": "^1.2.0",
     "serve-index": "^1.9.1",
     "serve-static": "^1.13.2"
