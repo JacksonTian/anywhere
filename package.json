@@ -18,6 +18,7 @@
     "connect-history-api-fallback": "^1.2.0",
     "debug": "^4.3.4",
     "http-proxy-middleware": "^0.19.1",
+    "mime-types": "^2.1.35",
     "minimist": "^1.2.0",
     "serve-index": "^1.9.1",
     "serve-static": "^1.13.2"
@@ -30,5 +31,8 @@
     "url": "https://github.com/JacksonTian/anywhere/issues"
   },
   "homepage": "https://github.com/JacksonTian/anywhere",
-  "files": ["bin", "keys"]
+  "files": [
+    "bin",
+    "keys"
+  ]
 }

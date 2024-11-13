@@ -6,6 +6,7 @@ var path = require('path');
 var http = require('http');
 var https = require('https');
 const { URL } = require('url');
+const mime = require('mime-types');
 
 var connect = require('connect');
 var serveStatic = require('serve-static');
@@ -87,7 +88,7 @@ var getIPAddress = function () {
   }
   // Local IP first
   ipList.sort(function (ip1, ip2) {
-    if(ip1.indexOf('192') >= 0){
+    if (ip1.indexOf('192') >= 0) {
       return -1;
     }
     return 1;
@@ -98,8 +99,20 @@ var getIPAddress = function () {
 var log = debug('anywhere');
 
 var app = connect();
+
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
+
+  // return correct header with brotli file
+  const extname = String(path.extname(req.url)).toLowerCase();
+  if (extname=='.br') {
+    const realName = req.url.substring(0, req.url.lastIndexOf('.'));
+    const realExtname = String(path.extname(realName)).toLowerCase();
+    const contentType = mime.contentType(realExtname) || 'application/octet-stream';
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Content-Encoding', 'br');
+  }
+  
   if (argv.log) {
     log(req.method + ' ' + req.url);
   }
