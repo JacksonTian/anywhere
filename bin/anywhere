@@ -27,10 +27,11 @@ var argv = require("minimist")(process.argv.slice(2), {
     'dir': 'd',
     'proxy': 'x',
     'log': 'l',
-    'fallback': 'f'
+    'fallback': 'f',
+    'all': 'a'
   },
   string: ['port', 'hostname', 'fallback'],
-  boolean: ['silent', 'log'],
+  boolean: ['silent', 'log', 'all'],
   'default': {
     'port': 8000,
     'dir': process.cwd()
@@ -48,6 +49,7 @@ if (argv.help) {
   console.log("  anywhere -d /home // /home as root");
   console.log("  anywhere -l // print log");
   console.log("  anywhere -f // Enable history fallback");
+  console.log("  anywhere -a // show all local IP addresses");
   console.log("  anywhere --proxy http://localhost:7000/api // Support shorthand URL, webpack.config.js or customize config file");
   process.exit(0);
 }
@@ -93,6 +95,30 @@ var getIPAddress = function () {
     return 1;
   });
   return ipList[0] || "127.0.0.1";
+};
+
+/**
+ * Get all ip(v4) addresses
+ * @return {Array} array of all ipv4 addresses
+ */
+var getAllIPAddresses = function () {
+  var ifaces = os.networkInterfaces();
+  var ipList = [];
+  for (var dev in ifaces) {
+    ifaces[dev].forEach(function (details) {
+      if (details.family === 'IPv4' && !details.internal) {
+        ipList.push(details.address);
+      }
+    });
+  }
+  // Local IP first
+  ipList.sort(function (ip1, ip2) {
+    if(ip1.indexOf('192') >= 0){
+      return -1;
+    }
+    return 1;
+  });
+  return ipList.length > 0 ? ipList : ["127.0.0.1"];
 };
 
 var log = debug('anywhere');
@@ -155,11 +181,25 @@ var hostname = argv.hostname || getIPAddress();
 
 http.createServer(app).listen(port, function () {
   // 忽略80端口
-  port = (port != 80 ? ':' + port : '');
-  var url = "http://" + hostname + port + '/';
-  console.log("Running at " + url);
-  if (!argv.silent) {
-    openURL(url);
+  var portStr = (port != 80 ? ':' + port : '');
+  if (argv.all) {
+    // 如果使用了 -a 参数，显示所有本地IP地址
+    var allIPs = getAllIPAddresses();
+    console.log("Running at:");
+    allIPs.forEach(function (ip) {
+      var url = "http://" + ip + portStr + '/';
+      console.log("  " + url);
+    });
+    if (!argv.silent) {
+      openURL("http://" + allIPs[0] + portStr + '/');
+    }
+  } else {
+    // 保持原来的逻辑，只显示一个IP地址
+    var url = "http://" + hostname + portStr + '/';
+    console.log("Running at " + url);
+    if (!argv.silent) {
+      openURL(url);
+    }
   }
 });
 
@@ -169,7 +209,18 @@ var options = {
 };
 
 https.createServer(options, app).listen(secure, function () {
-  secure = (secure != 80 ? ':' + secure : '');
-  var url = "https://" + hostname + secure + '/';
-  console.log("Also running at " + url);
+  var secureStr = (secure != 80 ? ':' + secure : '');
+  if (argv.all) {
+    // 如果使用了 -a 参数，显示所有本地IP地址
+    var allIPs = getAllIPAddresses();
+    console.log("Also running at:");
+    allIPs.forEach(function (ip) {
+      var url = "https://" + ip + secureStr + '/';
+      console.log("  " + url);
+    });
+  } else {
+    // 保持原来的逻辑，只显示一个IP地址
+    var url = "https://" + hostname + secureStr + '/';
+    console.log("Also running at " + url);
+  }
 });
