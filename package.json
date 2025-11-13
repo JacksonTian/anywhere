@@ -37,7 +37,8 @@
   ],
   "scripts": {
     "lint": "eslint bin/anywhere",
-    "lint:fix": "eslint bin/anywhere --fix"
+    "lint:fix": "eslint bin/anywhere --fix",
+    "test": "node --test test/*.test.js"
   },
   "devDependencies": {
     "eslint": "^9.39.1"
