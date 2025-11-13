@@ -49,15 +49,18 @@ Usage:
 #### Proxy argvs
 
 **Shorthand URL**
+
 ```
 anywhere --proxy http://localhost:7000/api
                  \___________________/\___/
                               |         |
                            target    context
 ```
+
 More about the [shorthand configuration](https://github.com/chimurai/http-proxy-middleware#shorthand).
 
 **Webpack config**
+
 ```javascript
 // webpack.config.js
 module.exports = {
@@ -73,6 +76,7 @@ module.exports = {
 ```
 
 **Customize config**
+
 ```javascript
 // proxy.config.js
 module.exports = {
@@ -82,6 +86,7 @@ module.exports = {
   }
 }
 ```
+
 More proxy [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware#context-matching) help.
 
 ## Visit
@@ -89,7 +94,9 @@ More proxy [http-proxy-middleware](https://github.com/chimurai/http-proxy-middle
 ```
 http://localhost:8000
 ```
+
 Automatically open default browser. 执行命令后，默认浏览器将为您自动打开主页。
 
 ## License
+
 The MIT license.
