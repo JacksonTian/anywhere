@@ -5,7 +5,6 @@ var fs = require('fs');
 var path = require('path');
 var http = require('http');
 var https = require('https');
-const { URL } = require('url');
 const mime = require('mime-types');
 
 var connect = require('connect');
@@ -88,7 +87,7 @@ var getAllIPAddresses = function () {
     });
   }
   // Local IP first
-  ipList.sort(function (ip1, ip2) {
+  ipList.sort(function (ip1) {
     if(ip1.indexOf('192') >= 0){
       return -1;
     }
@@ -130,20 +129,16 @@ if (argv.fallback !== undefined) {
 // anywhere --proxy proxy.config.js
 // anywhere --proxy http://localhost:7000/api
 if (argv.proxy) {
-  try {
-    // if url
-    var url = new URL(argv.proxy);
-    app.use(proxy(url.toString(), { changeOrigin: true }));
-  } catch (e) {
+  // check if it's a URL
+  var isURL = argv.proxy.startsWith('http://') || argv.proxy.startsWith('https://');
+  if (isURL) {
+    app.use(proxy(argv.proxy, { changeOrigin: true }));
+  } else {
     // if config file
     var config = require(path.resolve(argv.dir, argv.proxy));
     // support webpack-dev-server proxy options
-    try {
+    if (config.devServer && config.devServer.proxy) {
       config = config.devServer.proxy;
-    } catch (e) {
-      if (argv.log) {
-        log(e);
-      }
     }
     var contexts = Object.keys(config);
     contexts.forEach(context => {
