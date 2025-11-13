@@ -38,9 +38,11 @@
   "scripts": {
     "lint": "eslint bin/anywhere",
     "lint:fix": "eslint bin/anywhere --fix",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "test:cov": "c8 --reporter=html --reporter=text npm test"
   },
   "devDependencies": {
-    "eslint": "^9.39.1"
+    "eslint": "^9.39.1",
+    "c8": "^9.1.0"
   }
 }
