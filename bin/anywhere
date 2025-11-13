@@ -28,11 +28,10 @@ var argv = require("minimist")(process.argv.slice(2), {
     'dir': 'd',
     'proxy': 'x',
     'log': 'l',
-    'fallback': 'f',
-    'all': 'a'
+    'fallback': 'f'
   },
   string: ['port', 'hostname', 'fallback'],
-  boolean: ['silent', 'log', 'all'],
+  boolean: ['silent', 'log'],
   'default': {
     'port': 8000,
     'dir': process.cwd()
@@ -72,30 +71,6 @@ var openURL = function (url) {
     // `xdg-open` is specified in freedesktop standard, so it should work on
     // Linux, *BSD, solaris, etc.
   }
-};
-
-/**
- * Get ip(v4) address
- * @return {String} the ipv4 address or 'localhost'
- */
-var getIPAddress = function () {
-  var ifaces = os.networkInterfaces();
-  var ipList = [];
-  for (var dev in ifaces) {
-    ifaces[dev].forEach(function (details) {
-      if (details.family === 'IPv4' && !details.internal) {
-        ipList.push(details.address);
-      }
-    });
-  }
-  // Local IP first
-  ipList.sort(function (ip1, ip2) {
-    if (ip1.indexOf('192') >= 0) {
-      return -1;
-    }
-    return 1;
-  });
-  return ipList[0] || "127.0.0.1";
 };
 
 /**
@@ -190,29 +165,21 @@ app.use(serveIndex(argv.dir, { 'icons': true }));
 var port = parseInt(argv._[0] || argv.port, 10);
 var secure = port + 1;
 
-var hostname = argv.hostname || getIPAddress();
+var allIPs = getAllIPAddresses();
+var hostname = argv.hostname || allIPs[0];
 
 http.createServer(app).listen(port, function () {
   // 忽略80端口
   var portStr = (port != 80 ? ':' + port : '');
-  if (argv.all) {
-    // 如果使用了 -a 参数，显示所有本地IP地址
-    var allIPs = getAllIPAddresses();
-    console.log("Running at:");
-    allIPs.forEach(function (ip) {
-      var url = "http://" + ip + portStr + '/';
-      console.log("  " + url);
-    });
-    if (!argv.silent) {
-      openURL("http://" + allIPs[0] + portStr + '/');
-    }
-  } else {
-    // 保持原来的逻辑，只显示一个IP地址
-    var url = "http://" + hostname + portStr + '/';
-    console.log("Running at " + url);
-    if (!argv.silent) {
-      openURL(url);
-    }
+  // 如果使用了 -a 参数，显示所有本地IP地址
+  var allIPs = getAllIPAddresses();
+  console.log("Running at:");
+  allIPs.forEach(function (ip) {
+    var url = "http://" + ip + portStr + '/';
+    console.log("  " + url);
+  });
+  if (!argv.silent) {
+    openURL("http://" + hostname + portStr + '/');
   }
 });
 
@@ -222,18 +189,10 @@ var options = {
 };
 
 https.createServer(options, app).listen(secure, function () {
-  var secureStr = (secure != 80 ? ':' + secure : '');
-  if (argv.all) {
-    // 如果使用了 -a 参数，显示所有本地IP地址
-    var allIPs = getAllIPAddresses();
-    console.log("Also running at:");
-    allIPs.forEach(function (ip) {
-      var url = "https://" + ip + secureStr + '/';
-      console.log("  " + url);
-    });
-  } else {
-    // 保持原来的逻辑，只显示一个IP地址
-    var url = "https://" + hostname + secureStr + '/';
-    console.log("Also running at " + url);
-  }
+  var secureStr = (secure != 443 ? ':' + secure : '');
+  console.log("Also running at:");
+  allIPs.forEach(function (ip) {
+    var url = "https://" + ip + secureStr + '/';
+    console.log("  " + url);
+  });
 });
