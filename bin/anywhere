@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-var os = require('os');
 var fs = require('fs');
 var path = require('path');
 var http = require('http');
 var https = require('https');
 const mime = require('mime-types');
+var utils = require('../lib/utils');
 
 var connect = require('connect');
 var serveStatic = require('serve-static');
@@ -72,29 +72,6 @@ var openURL = function (url) {
   }
 };
 
-/**
- * Get all ip(v4) addresses
- * @return {Array} array of all ipv4 addresses
- */
-var getAllIPAddresses = function () {
-  var ifaces = os.networkInterfaces();
-  var ipList = [];
-  for (var dev in ifaces) {
-    ifaces[dev].forEach(function (details) {
-      if (details.family === 'IPv4' && !details.internal) {
-        ipList.push(details.address);
-      }
-    });
-  }
-  // Local IP first
-  ipList.sort(function (ip1) {
-    if(ip1.indexOf('192') >= 0){
-      return -1;
-    }
-    return 1;
-  });
-  return ipList.length > 0 ? ipList : ["127.0.0.1"];
-};
 
 var log = debug('anywhere');
 
@@ -160,14 +137,12 @@ app.use(serveIndex(argv.dir, { 'icons': true }));
 var port = parseInt(argv._[0] || argv.port, 10);
 var secure = port + 1;
 
-var allIPs = getAllIPAddresses();
+var allIPs = utils.getAllIPAddresses();
 var hostname = argv.hostname || allIPs[0];
 
 http.createServer(app).listen(port, function () {
   // 忽略80端口
   var portStr = (port != 80 ? ':' + port : '');
-  // 如果使用了 -a 参数，显示所有本地IP地址
-  var allIPs = getAllIPAddresses();
   console.log("Running at:");
   allIPs.forEach(function (ip) {
     var url = "http://" + ip + portStr + '/';
