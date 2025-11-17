@@ -18,7 +18,7 @@
     "connect-history-api-fallback": "^2.0.0",
     "debug": "^4.3.4",
     "http-proxy-middleware": "^3.0.5",
-    "mime-types": "^2.1.35",
+    "mime-types": "^3.0.1",
     "minimist": "^1.2.0",
     "serve-index": "^1.9.1",
     "serve-static": "^1.13.2"
