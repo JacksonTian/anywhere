@@ -42,7 +42,7 @@
     "test:cov": "c8 --reporter=html --reporter=text npm test"
   },
   "devDependencies": {
-    "eslint": "^9.39.1",
+    "eslint": "^10.0.0",
     "c8": "^10.1.3"
   }
 }
